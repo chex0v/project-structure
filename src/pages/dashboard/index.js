@@ -158,6 +158,8 @@ export default class Page {
   }
 
   removeEventListener() {
-    this.components.rangePicker.element.removeEventListener('date-select', this.onUpdateComponents);
+    if (this.components.rangePicker && this.components.rangePicker.element) {
+      this.components.rangePicker.element.removeEventListener('date-select', this.onUpdateComponents);
+    }
   }
 }
