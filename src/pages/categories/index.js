@@ -4,6 +4,11 @@ import fetchJson from '../../utils/fetch-json.js';
 const BACKEND_URL = process.env.BACKEND_URL;
 const CATEGORIES_URL = "api/rest/categories";
 
+function createElementFromString(string) {
+  const div = document.createElement("div");
+  div.innerHTML = string.trim();
+  return div.firstElementChild;
+}
 export default class Page {
   element;
   subElements = {};
@@ -18,36 +23,28 @@ export default class Page {
   }
 
   initComponents () {
-
-    const categories = new Categories(this.data);
-    this.components.categories = categories;
+    this.components.categories = new Categories(this.data);
   }
 
   get template () {
     return `
     <div class="categories">
       <div class="content__top-panel">
-        <h1 class="page-title">Product categories</h1>
+        <h1 class="page-title">Категории</h1>
       </div>
       <div data-element="categories">
-        <!-- categories component -->
       </div>
     </div>`;
   }
 
   async render () {
-    const element = document.createElement('div');
 
-    element.innerHTML = this.template;
-
-    this.element = element.firstElementChild;
-
+    this.element = createElementFromString(this.template)
     this.subElements = this.getSubElements(this.element);
 
     await this.getData();
 
     this.initComponents();
-
     this.renderComponents();
 
     return this.element;

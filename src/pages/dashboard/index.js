@@ -42,6 +42,14 @@ export default class Page {
     this.element = createElementFromString(this.template);
     this.subElements = this.getSubElements(this.element);
 
+    this.initComponents();
+    this.renderComponents();
+    this.initEventListeners();
+
+    return this.element;
+  }
+
+  initComponents() {
     const from = new Date(2019, 12, 1);
     const to = new Date(2020, 5, 5);
 
@@ -83,11 +91,6 @@ export default class Page {
       url: `api/dashboard/bestsellers?_start=1&_end=20&from=${from.toISOString()}&to=${to.toISOString()}`,
       isSortLocal: true
     });
-
-    this.renderComponents();
-    this.initEventListeners();
-
-    return this.element;
   }
 
   renderComponents() {
