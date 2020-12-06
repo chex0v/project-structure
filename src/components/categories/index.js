@@ -73,9 +73,7 @@ export default class Categories {
 
   render() {
     this.element = createElementFromString(this.template);
-
     this.appendSubcategoryDraggableList();
-
     this.initEventListeners();
   }
 

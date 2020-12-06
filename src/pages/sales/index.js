@@ -13,6 +13,11 @@ export default class SalesPage {
   subElements = {};
   components = {};
 
+  onDateSelect = async event => {
+    const { from, to } = event.detail;
+    await this.updateTableComponent(from, to);
+  }
+
   get template() {
     return `
       <div class="sales full-height flex-column">
@@ -55,6 +60,7 @@ export default class SalesPage {
         id: 'id',
         order: 'desc',
       },
+      link: null
     });
     this.components.rangePicker = new RangePicker({ from: from, to: to });
   }
@@ -67,24 +73,27 @@ export default class SalesPage {
   }
 
   renderComponents() {
-    this.subElements['topPanel'].append(this.components.rangePicker.element);
-    this.subElements['ordersContainer'].append(this.components.sortableTable.element);
+    this.subElements.topPanel.append(this.components.rangePicker.element);
+    this.subElements.ordersContainer.append(this.components.sortableTable.element);
   }
 
   initEventListeners() {
-    this.components.rangePicker.element.addEventListener('date-select', async event => {
-      const { from, to } = event.detail;
-      await this.updateTableComponent(from, to);
-    });
+    this.components.rangePicker.element.addEventListener('date-select', this.onDateSelect);
+  }
+
+  removeEventListeners() {
+    if (this.components.rangePicker) {
+      this.components.rangePicker.element.removeEventListener('date-select', this.onDateSelect);
+    }
   }
 
   async updateTableComponent(from, to) {
-    this.components.sortableTable.url = this.getTableUrl(from, to);
-    const data = await this.components.sortableTable.loadData();
-    this.components.sortableTable.addRows(data);
+    this.components.sortableTable.setUrl(this.getTableUrl(from, to));
+    await this.components.sortableTable.loadData();
   }
 
   destroy() {
+    this.removeEventListeners();
     for (const component of Object.values(this.components)) {
       component.destroy();
     }

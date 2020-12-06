@@ -73,7 +73,8 @@ export default class SortableTable {
   constructor(header = [], {
     isSortLocal = false,
     url = '',
-    data = []
+    data = [],
+    link = '/products/'
   } = {}) {
     this.header = header;
     this.data = data;
@@ -81,6 +82,7 @@ export default class SortableTable {
       type: 'asc',
       id: header.find(item => item.sortable).id
     };
+    this.link = link;
     this.end = this.start + this.limit;
     this.url = new URL(url, BACKEND_URL);
     this.isSortLocal = isSortLocal;
@@ -141,11 +143,13 @@ export default class SortableTable {
     const headerDescription = this.headerDescription();
     return this.data
       .map(
-        (item) => `
-      <a href="/products/${item.id}" class="sortable-table__row">
-        ${this.getRow(headerDescription, item).join("")}
-      </a>
-      `
+        (item) => {
+          const row = `${this.getRow(headerDescription, item).join("")}`
+          if (this.link) {
+            return `<a href="${this.link}${item.id}" class="sortable-table__row">${row}</a>`
+          }
+          return `<div class="sortable-table__row">${row}</div>`;
+        }
       )
       .join("");
   }

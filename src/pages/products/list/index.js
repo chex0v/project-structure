@@ -139,6 +139,18 @@ export default class Page {
     }
   }
 
+  removeEventListeners() {
+    if (this.components.slider) {
+      this.components.slider.element.removeEventListener('range-select', this.onRangeSelect);
+    }
+    if (this.subElements.filterName) {
+      this.subElements.filterName.removeEventListener('input', this.onInputProductName);
+    }
+    if (this.subElements.filterStatus) {
+      this.subElements.filterStatus.removeEventListener('change', this.onChangeStatus);
+    }
+  }
+
 
   async renderComponents() {
     Object.entries(this.components).forEach(([name, component]) => {
@@ -147,6 +159,7 @@ export default class Page {
   }
 
   destroy() {
+    this.removeEventListeners();
     for (const component of Object.values(this.components)) {
       component.destroy();
     }

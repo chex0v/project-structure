@@ -2,7 +2,6 @@ import Categories from '../../components/categories/index.js';
 import fetchJson from '../../utils/fetch-json.js';
 
 const BACKEND_URL = process.env.BACKEND_URL;
-const CATEGORIES_URL = "api/rest/categories";
 
 function createElementFromString(string) {
   const div = document.createElement("div");
@@ -16,7 +15,7 @@ export default class Page {
   data = {};
 
   async getData () {
-    const fetchUrl = new URL(CATEGORIES_URL, BACKEND_URL);
+    const fetchUrl = new URL("api/rest/categories", BACKEND_URL);
     fetchUrl.searchParams.set("_sort", "weight");
     fetchUrl.searchParams.set("_refs", "subcategory");
     this.data = await fetchJson(fetchUrl);
