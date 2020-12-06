@@ -65,7 +65,8 @@ export default class Page {
         from,
         to
       },
-      link: '/sales'
+      link: '/sales',
+      formatTooltip: this.formatTooltip
     });
 
     this.components.salesChart = new ColumnChart({
@@ -76,6 +77,7 @@ export default class Page {
         from,
         to
       },
+      formatTooltip: this.formatTooltip
     });
 
     this.components.customersChart = new ColumnChart({
@@ -84,7 +86,8 @@ export default class Page {
       range: {
         from,
         to
-      }
+      },
+      formatTooltip: this.formatTooltip
     });
 
     this.components.sortableTable = new SortableTable(header, {
@@ -97,6 +100,13 @@ export default class Page {
     Object.entries(this.components).forEach(([name, component]) => {
       this.subElements[name].append(component.element);
     });
+  }
+
+  formatTooltip([key, value]) {
+    const date = new Date(key);
+    return `<div><small>${date.toLocaleString('ru', {
+      year: 'numeric', month: 'short', day: 'numeric'
+    })}</small></div><strong>${value}</strong>`;
   }
 
   get template() {

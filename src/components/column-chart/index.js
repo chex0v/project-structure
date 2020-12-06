@@ -27,7 +27,12 @@ export default class ColumnChart {
     label = "",
     value = 0,
     link = null,
-    formatHeading = data => `$${data}`
+    formatHeading = data => `$${data}`,
+    formatTooltip = ([key, value]) => {
+      const maxValue = Math.max(...Object.values(this.data));
+      const percent = ((value / maxValue) * 100).toFixed();
+      return `${percent}%`;
+    }
   } = {}) {
     this.data = data;
     this.label = label;
@@ -36,6 +41,7 @@ export default class ColumnChart {
     this.url = new URL(url, BACKEND_URL);
     this.range = range;
     this.formatHeading = formatHeading;
+    this.formatTooltip = formatTooltip;
     this.render();
     this.update();
   }
@@ -66,16 +72,15 @@ export default class ColumnChart {
   }
 
   renderData(data) {
-    if (!data || !data.length) return "";
+    if (!data || !Object.values(data).length) return "";
 
-    const maxValue = Math.max(...this.data);
+    const maxValue = Math.max(...Object.values(this.data));
     const scale = this.chartHeight / maxValue;
 
-    return this.data
-      .map((item) => {
-        const percent = ((item / maxValue) * 100).toFixed();
-        const value = Math.floor(item * scale);
-        return `<div style="--value: ${value}" data-tooltip="${percent}%"></div>`;
+    return Object.entries(this.data)
+      .map(([key, value]) => {
+        const v = Math.floor(value * scale);
+        return `<div style="--value: ${v}" data-tooltip="${this.formatTooltip([key, value])}"></div>`;
       })
       .join("");
   }
@@ -132,9 +137,9 @@ export default class ColumnChart {
     this.toggleLoad();
     try {
       const response = await fetchJson(this.url);
-      const data = [];
-      this.value = Object.entries(response).reduce((sum, [, value]) => {
-        data.push(value);
+      const data = {};
+      this.value = Object.entries(response).reduce((sum, [date, value]) => {
+        data[date] = value;
         return sum + value;
       }, 0);
       this.updateData(data);
