@@ -21,7 +21,8 @@ export default class Page {
     rangePicker: null,
     ordersChart: null,
     salesChart: null,
-    customersChart: null
+    customersChart: null,
+    sortableTable: null
   };
   onUpdateComponents = event => {
     const {
@@ -31,6 +32,11 @@ export default class Page {
 
     this.updateComponents(from, to);
   }
+
+  onToogleSidebar = () => {
+    document.body.classList.toggle('is-collapsed-sidebar');
+  }
+
 
   async render() {
     this.element = createElementFromString(this.template);
@@ -123,6 +129,10 @@ export default class Page {
 
   initEventListeners() {
     this.components.rangePicker.element.addEventListener('date-select', this.onUpdateComponents);
+    this.toogler = document.querySelector('.sidebar__toggler')
+    if (this.toogler) {
+      this.toogler.addEventListener('click', this.onToogleSidebar);
+    }
   }
 
 
@@ -160,6 +170,10 @@ export default class Page {
   removeEventListener() {
     if (this.components.rangePicker && this.components.rangePicker.element) {
       this.components.rangePicker.element.removeEventListener('date-select', this.onUpdateComponents);
+    }
+
+    if(this.toogler) {
+      this.toogler.removeEventListener('click', this.onToogleSidebar);
     }
   }
 }
