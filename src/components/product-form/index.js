@@ -89,12 +89,14 @@ export default class ProductForm {
       },
       body: JSON.stringify(this.formData)
     });
-
+    console.log('Result ', result);
     const event = this.productId ?
       new CustomEvent('product-updated', {
         detail: result.id
       }) :
-      new CustomEvent('product-saved');
+      new CustomEvent('product-saved', {
+        detail: result.id
+      });
 
     this.element.dispatchEvent(event);
   }
@@ -154,6 +156,7 @@ export default class ProductForm {
 
   async fetchData(productId) {
     this.urlProduct.searchParams.set('id', productId);
+    console.log('Product ', productId);
     const [data] = await fetchJson(this.urlProduct);
     return data;
   }
@@ -239,32 +242,32 @@ export default class ProductForm {
       <div class="form-group form-group__half_left">
         <fieldset>
           <label class="form-label">Название товара</label>
-          <input 
+          <input
             id="title"
-            required 
-            type="text" 
-            name="title" 
-            class="form-control" 
-            placeholder="Название товара" 
+            required
+            type="text"
+            name="title"
+            class="form-control"
+            placeholder="Название товара"
             value='${this.data.title}'
           >
         </fieldset>
       </div>
       <div class="form-group form-group__wide">
         <label class="form-label">Описание</label>
-        <textarea 
+        <textarea
           id="description"
-          required="" 
-          class="form-control" 
-          name="description" 
-          data-element="productDescription" 
+          required=""
+          class="form-control"
+          name="description"
+          data-element="productDescription"
           placeholder="Описание товара"
           >${this.data.description}</textarea>
       </div>
       <div class="form-group form-group__wide" data-element="sortable-list-container">
         <label class="form-label">Фото</label>
         <div data-element="imageListContainer">
-          
+
         </div>
         <button data-element="uploadImage" type="button" name="uploadImage" class="button-primary-outline">
           <span>Загрузить</span>

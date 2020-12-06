@@ -26,7 +26,7 @@ export default class ColumnChart {
     },
     label = "",
     value = 0,
-    link = "#",
+    link = null,
     formatHeading = data => `$${data}`
   } = {}) {
     this.data = data;
@@ -48,7 +48,7 @@ export default class ColumnChart {
 
 
   renderTitle() {
-    const title = `Total ${this.label.charAt(0) + this.label.slice(1)}`;
+    const title = `${this.label.charAt(0) + this.label.slice(1)}`;
     return `
      <div data-element="title" class="column-chart__title">
       ${title}

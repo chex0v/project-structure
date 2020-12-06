@@ -72,9 +72,9 @@ export default class SortableTable {
 
   constructor(header = [], {
     isSortLocal = false,
-    url,
+    url = '',
     data = []
-  }) {
+  } = {}) {
     this.header = header;
     this.data = data;
     this.sortConfig = {
@@ -94,6 +94,10 @@ export default class SortableTable {
               <span class="sort-arrow"></span>
             </span>
     `;
+  }
+
+  setUrl(url) {
+    this.url = url;
   }
 
   get headerData() {
@@ -199,7 +203,7 @@ export default class SortableTable {
   async loadData({
     id = this.sortConfig.id,
     order = this.sortConfig.type
-  }, start = this.start, end = this.end) {
+  } = {}, start = this.start, end = this.end) {
     this.url.searchParams.set('_sort', id);
     this.url.searchParams.set('_order', order);
     this.url.searchParams.set('_start', start);

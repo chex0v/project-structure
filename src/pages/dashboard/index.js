@@ -44,7 +44,7 @@ export default class Page {
 
     const from = new Date(2019, 12, 1);
     const to = new Date(2020, 5, 5);
-    
+
     this.components.rangePicker = new RangePicker({
       from,
       to
@@ -57,7 +57,7 @@ export default class Page {
         from,
         to
       },
-      link: '#'
+      link: '/sales'
     });
 
     this.components.salesChart = new ColumnChart({
@@ -67,7 +67,7 @@ export default class Page {
       range: {
         from,
         to
-      }
+      },
     });
 
     this.components.customersChart = new ColumnChart({
