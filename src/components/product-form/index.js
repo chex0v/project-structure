@@ -89,7 +89,6 @@ export default class ProductForm {
       },
       body: JSON.stringify(this.formData)
     });
-    console.log('Result ', result);
     const event = this.productId ?
       new CustomEvent('product-updated', {
         detail: result.id
@@ -156,7 +155,6 @@ export default class ProductForm {
 
   async fetchData(productId) {
     this.urlProduct.searchParams.set('id', productId);
-    console.log('Product ', productId);
     const [data] = await fetchJson(this.urlProduct);
     return data;
   }

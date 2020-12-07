@@ -64,7 +64,9 @@ export default class SortableTable {
       this.end = this.start + this.limit;
       this.load = true;
       this.toggleLoad();
-      await this.sortOnServer(this.sortConfig.id, this.sortConfig.type);
+      const newData = await this.getDataFromServer();
+      this.data = [...this.data, ...newData];
+      this.subElements.body.innerHTML = this.bodyData;
       this.load = false;
       this.toggleLoad();
     }
@@ -202,6 +204,14 @@ export default class SortableTable {
       id: field,
       order: type
     });
+  }
+
+  async getDataFromServer() {
+    this.url.searchParams.set('_sort', this.sortConfig.id);
+    this.url.searchParams.set('_order', this.sortConfig.type);
+    this.url.searchParams.set('_start', this.start);
+    this.url.searchParams.set('_end', this.end);
+    return await fetchJson(this.url);
   }
 
   async loadData({
