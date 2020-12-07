@@ -27,7 +27,7 @@ export default class ColumnChart {
     label = "",
     value = 0,
     link = null,
-    formatHeading = data => `$${data}`,
+    formatHeading = data => data,
     formatTooltip = ([key, value]) => {
       const maxValue = Math.max(...Object.values(this.data));
       const percent = ((value / maxValue) * 100).toFixed();
@@ -48,7 +48,7 @@ export default class ColumnChart {
 
   renderLink() {
     return this.link ?
-      `<a data-element="link" class="column-chart__link" href="${this.link}">View all</a>` :
+      `<a data-element="link" class="column-chart__link" href="${this.link}">Подробнее</a>` :
       "";
   }
 
@@ -60,14 +60,6 @@ export default class ColumnChart {
       ${title}
       ${this.renderLink()}
      </div>
-    `;
-  }
-
-  renderHeader() {
-    return `
-    <div data-element="header" class="column-chart__header">
-      ${this.value}
-    </div>
     `;
   }
 
@@ -99,7 +91,7 @@ export default class ColumnChart {
     ${this.renderTitle()}
     <div data-element="container" class="column-chart__container">
       <div data-element="header" class="column-chart__header">
-        ${this.value}
+        ${this.formatHeading(this.value)}
       </div>
       <div data-element="body" class="column-chart__chart">
         ${this.renderData(this.data)}
@@ -143,7 +135,7 @@ export default class ColumnChart {
         return sum + value;
       }, 0);
       this.updateData(data);
-      this.subElements.header.innerHTML = this.value;
+      this.subElements.header.innerHTML = this.formatHeading(this.value);
     } finally {
       this.toggleLoad();
     }

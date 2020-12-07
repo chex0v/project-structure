@@ -50,8 +50,9 @@ export default class Page extends BasePage {
   }
 
   initComponents() {
-    const from = new Date(2019, 12, 1);
-    const to = new Date(2020, 5, 5);
+    const to = new Date();
+    const from = new Date(to);
+    from.setMonth(to.getMonth() - 1);
 
     this.components.rangePicker = new RangePicker({
       from,
@@ -72,7 +73,11 @@ export default class Page extends BasePage {
     this.components.salesChart = new ColumnChart({
       url: 'api/dashboard/sales',
       label: 'Продажи',
-      formatHeading: data => `$${data}`,
+      formatHeading: data => new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0
+      }).format(data),
       range: {
         from,
         to
