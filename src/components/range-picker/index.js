@@ -1,5 +1,5 @@
 function createElementFromString(string) {
-  const div = document.createElement("div");
+  const div = document.createElement('div');
   div.innerHTML = string.trim();
   return div.firstElementChild;
 }
@@ -15,7 +15,7 @@ export default class RangePicker {
     event.preventDefault();
     this.togglePicker();
     this.renderCalendar();
-  }
+  };
 
   renderCalendar() {
     const nextMonth = new Date(new Date(this.dateFrom).setMonth(this.dateFrom.getMonth() + 1));
@@ -44,17 +44,17 @@ export default class RangePicker {
     if (this.isOpen() && !isRangePicker) {
       this.togglePicker();
     }
-  }
+  };
 
   onClickLeft = () => {
     this.dateFrom = new Date(this.dateFrom.getFullYear(), this.dateFrom.getMonth() - 1, 1);
     this.renderCalendar();
-  }
+  };
 
   onClickRight = () => {
     this.dateFrom = new Date(this.dateFrom.getFullYear(), this.dateFrom.getMonth() + 1, 1);
     this.renderCalendar();
-  }
+  };
 
   onClickSelector = event => {
 
@@ -100,7 +100,7 @@ export default class RangePicker {
       this.dispatchEvent();
     }
 
-  }
+  };
 
 
   constructor({
@@ -151,13 +151,14 @@ export default class RangePicker {
       .map((item, index) => {
         const d = new Date(new Date().setDate(index));
         let n = d.getDay();
-        if (n === 0) n = 7;
+        if (n === 0) {
+          n = 7;
+        }
         return [
           n, d.toLocaleString('ru', {
             weekday: 'short'
-          })
-        ];
-      }).sort(([a, ], [b, ]) => a - b)));
+          })];
+      }).sort(([a], [b]) => a - b)));
   }
 
   getTemplateCalendar(numberMonth, year, {
@@ -209,7 +210,9 @@ export default class RangePicker {
   }
 
   togglePicker() {
-    if (!this.element) return;
+    if (!this.element) {
+      return;
+    }
     if (this.element.classList.contains(this.RANGEPICKER_OPEN)) {
       this.element.classList.remove(this.RANGEPICKER_OPEN);
     } else {
@@ -222,7 +225,7 @@ export default class RangePicker {
   }
 
   getSubElements(element) {
-    const elements = element.querySelectorAll("[data-element]");
+    const elements = element.querySelectorAll('[data-element]');
 
     return [...elements].reduce((accum, subElement) => {
       accum[subElement.dataset.element] = subElement;
@@ -236,6 +239,7 @@ export default class RangePicker {
     this.subElements.input.addEventListener('click', this.onClickRangePicker);
     this.subElements.selector.addEventListener('click', this.onClickSelector);
   }
+
   removeEventListeners() {
     document.removeEventListener('click', this.onClickDocument, true);
     this.subElements.input.removeEventListener('click', this.onClickRangePicker);

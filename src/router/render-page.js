@@ -8,6 +8,7 @@ export default async function(path, match) {
   try {
     id = match[1];
   } catch (e) {
+    console.error(e);
   }
 
   const page = new Page(id);

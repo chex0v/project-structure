@@ -64,7 +64,9 @@ export default class ColumnChart {
   }
 
   renderData(data) {
-    if (!data || !Object.values(data).length) return "";
+    if (!data || !Object.values(data).length) {
+      return '';
+    }
 
     const maxValue = Math.max(...Object.values(this.data));
     const scale = this.chartHeight / maxValue;

@@ -58,10 +58,18 @@ export default class Page extends BasePage {
     url.searchParams.set('_embed', 'subcategory.category');
 
     const { name, priceLeft, priceRight, status } = this.filters;
-    if (name) url.searchParams.set('title_like', name);
-    if (priceLeft) url.searchParams.set('price_gte', priceLeft);
-    if (priceRight) url.searchParams.set('price_lte', priceRight);
-    if (status) url.searchParams.set('status', status);
+    if (name) {
+      url.searchParams.set('title_like', name);
+    }
+    if (priceLeft) {
+      url.searchParams.set('price_gte', priceLeft);
+    }
+    if (priceRight) {
+      url.searchParams.set('price_lte', priceRight);
+    }
+    if (status) {
+      url.searchParams.set('status', status);
+    }
 
     return url;
   }

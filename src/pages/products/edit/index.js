@@ -83,7 +83,7 @@ export default class Page extends BasePage {
   }
 
   removeEventListeners() {
-    if ( this.components.product &&  this.components.product.element) {
+    if (this.components.product && this.components.product.element) {
       this.components.product.element.removeEventListeners('product-saved', this.onProductSaved);
       this.components.product.element.removeEventListeners('product-updated', this.onProductUpdated);
     }

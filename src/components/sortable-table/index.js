@@ -18,18 +18,20 @@ export default class SortableTable {
 
   onSortClick = event => {
     const col = event.target.closest("[data-sortable='true']");
-    if (!col) return;
+    if (!col) {
+      return;
+    }
 
     const toggleType = oldType => {
       switch (oldType) {
-        case 'asc':
-          return 'desc';
-        case 'desc':
-          return 'asc';
-        default:
-          return 'asc';
+      case 'asc':
+        return 'desc';
+      case 'desc':
+        return 'asc';
+      default:
+        return 'asc';
       }
-    }
+    };
 
     if (col) {
       const {
@@ -281,7 +283,7 @@ export default class SortableTable {
     }
   }
 
-  sort(field, type = "asc") {
+  sort(field, type = 'asc') {
     const header = this.header.find((h) => h.id === field);
     if (header && header.sortable) {
       const {
@@ -289,11 +291,11 @@ export default class SortableTable {
       } = header;
       this.data = [...this.data].sort((a, b) => {
         switch (type) {
-          case "desc":
-            return this.compare(b[field], a[field], sortType);
-          case "asc":
-          default:
-            return this.compare(a[field], b[field], sortType);
+        case 'desc':
+          return this.compare(b[field], a[field], sortType);
+        case 'asc':
+        default:
+          return this.compare(a[field], b[field], sortType);
         }
       });
       if (this.subElements.body) {
@@ -304,12 +306,12 @@ export default class SortableTable {
 
   compare(first, second, type = "number") {
     switch (type) {
-      case "number":
-        return first - second;
-      case "string":
-        return first.localeCompare(second, ["ru", "en"], {
-          caseFirst: "upper",
-        });
+    case "number":
+      return first - second;
+    case "string":
+      return first.localeCompare(second, ["ru", "en"], {
+        caseFirst: "upper",
+      });
     }
     return 0;
   }

@@ -98,14 +98,14 @@ export default class DoubleSlider {
   };
 
   constructor({
-                min = 0,
-                max = 100,
-                formatValue = value => '$' + value,
-                selected = {
-                  from: min,
-                  to: max
-                }
-              } = {}) {
+    min = 0,
+    max = 100,
+    formatValue = value => '$' + value,
+    selected = {
+      from: min,
+      to: max
+    }
+  } = {}) {
     this.min = min;
     this.max = max;
     this.formatValue = formatValue;

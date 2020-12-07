@@ -59,14 +59,14 @@ export default class Categories {
   }
 
   async send(categories) {
-    const url = new URL ('api/rest/subcategories', process.env.BACKEND_URL);
+    const url = new URL('api/rest/subcategories', process.env.BACKEND_URL);
     const requestParams = {
       method: 'PATCH',
-      headers:             {
+      headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
       body: JSON.stringify(categories)
-    }
+    };
 
     await fetchJson(url, requestParams);
   }

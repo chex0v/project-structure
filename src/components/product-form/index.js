@@ -37,7 +37,9 @@ export default class ProductForm {
     const inputFile = createElementFromString("<input type='file' accept ='image/*'>");
     inputFile.onchange = async () => {
       const [file] = inputFile.files
-      if (!file) return;
+      if (!file) {
+        return;
+      }
       const formData = new FormData();
       formData.append('image', file);
       this.processLoadImage(true);
