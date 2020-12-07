@@ -269,18 +269,16 @@ export default class SortableTable {
     this.remove();
     document.removeEventListener('pointerdown', this.onSortClick);
     document.removeEventListener('scroll', this.onScroll);
+    if (this.subElements && this.subElements.emptyPlaceholder) {
+      this.subElements.emptyPlaceholder.removeEventListener('click', this.onClickClearBtn);
+    }
   }
 
 
   remove() {
-    if (this.subElements.emptyPlaceholder) {
-      this.subElements.emptyPlaceholder.removeEventListener('click', this.onClickClearBtn);
-    }
     if (this.element) {
       this.element.remove();
     }
-    this.element = null;
-    this.subElements = null;
   }
 
   sort(field, type = "asc") {
