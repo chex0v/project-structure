@@ -72,6 +72,14 @@ export default class SortableTable {
     }
   };
 
+  onClickClearBtn = event => {
+    if (event.target.closest('[type="button"]')) {
+      this.element.dispatchEvent(new CustomEvent('clear-filter', {
+        bubbles: true
+      }));
+    }
+  }
+
   constructor(header = [], {
     isSortLocal = false,
     url = '',
@@ -159,6 +167,11 @@ export default class SortableTable {
   setData(data) {
     this.data = data;
     this.subElements.body.innerHTML = this.bodyData;
+    if (!this.data || !this.data.length) {
+      this.element.firstElementChild.classList.add('sortable-table_empty');
+    } else {
+      this.element.firstElementChild.classList.remove('sortable-table_empty');
+    }
   }
 
   get template() {
@@ -168,14 +181,14 @@ export default class SortableTable {
         <div data-element="header" class="sortable-table__header sortable-table__row">
         ${this.headerData}
         </div>
+        <div data-element="loading" class="loading-line sortable-table__loading-line"></div>
         <div data-element="body" class="sortable-table__body">
         ${this.bodyData}
         </div>
-        <div data-element="loading" class="loading-line sortable-table__loading-line"></div>
         <div data-element="emptyPlaceholder" class="sortable-table__empty-placeholder">
           <div>
-            <p>No products satisfies your filter criteria</p>
-            <button type="button" class="button-primary-outline">Reset all filters</button>
+            <p>Не найдено товаров удовлетворяющих выбранному критерию</p>
+            <button type="button" class="button-primary-outline">Очистить фильтры</button>
           </div>
         </div>
       </div>
@@ -195,7 +208,7 @@ export default class SortableTable {
 
   toggleLoad() {
     if (this.element) {
-      this.element.classList.toggle('sortable-table_loading');
+      this.element.firstElementChild.classList.toggle('sortable-table_loading');
     }
   }
 
@@ -226,7 +239,7 @@ export default class SortableTable {
     this.toggleLoad();
     try {
       this.data = await fetchJson(this.url);
-      this.subElements.body.innerHTML = this.bodyData;
+      this.setData(this.data);
     } catch (e) {
       // TODO: показать сообщение о ошибке
     } finally {
@@ -237,6 +250,9 @@ export default class SortableTable {
   initEventListeners() {
     document.addEventListener('pointerdown', this.onSortClick);
     document.addEventListener('scroll', this.onScroll);
+    if (this.subElements.emptyPlaceholder) {
+      this.subElements.emptyPlaceholder.addEventListener('click', this.onClickClearBtn);
+    }
   }
 
   getSubElements(element) {
@@ -257,6 +273,9 @@ export default class SortableTable {
 
 
   remove() {
+    if (this.subElements.emptyPlaceholder) {
+      this.subElements.emptyPlaceholder.removeEventListener('click', this.onClickClearBtn);
+    }
     if (this.element) {
       this.element.remove();
     }

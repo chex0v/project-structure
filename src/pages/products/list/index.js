@@ -32,6 +32,11 @@ export default class Page extends BasePage {
     await this.updateTableComponent();
   };
 
+  onClearFilter = async () => {
+    this.clearFilter();
+    await this.updateTableComponent();
+  };
+
   onInputProductName = async (event) => {
     const value = event.target.value.trim();
     this.filters.name = value;
@@ -77,6 +82,18 @@ export default class Page extends BasePage {
     this.initEventListeners();
 
     return this.element;
+  }
+
+  clearFilter() {
+    this.filters = {
+      name: '',
+      priceLeft: '',
+      priceRight: '',
+      status: ''
+    };
+    this.subElements.filterName.value = '';
+    this.subElements.filterStatus.value = '';
+    this.components.slider.reset();
   }
 
   initComponents() {
@@ -136,6 +153,7 @@ export default class Page extends BasePage {
 
   initEventListeners() {
     this.components.slider.element.addEventListener('range-select', this.onRangeSelect);
+    this.components.sortableTable.element.addEventListener('clear-filter', this.onClearFilter);
     if (this.subElements.filterName) {
       this.subElements.filterName.addEventListener('input', this.onInputProductName);
     }
@@ -153,6 +171,9 @@ export default class Page extends BasePage {
     }
     if (this.subElements.filterStatus) {
       this.subElements.filterStatus.removeEventListener('change', this.onChangeStatus);
+    }
+    if (this.components.sortableTable && this.components.sortableTable.element) {
+      this.components.sortableTable.element.addEventListener('clear-filter', this.onClearFilter);
     }
   }
 

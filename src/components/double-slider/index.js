@@ -130,6 +130,16 @@ export default class DoubleSlider {
     `;
   }
 
+  reset() {
+    this.subElements.progress.style.left = `0%`;
+    this.subElements.progress.style.right = `0%`;
+    this.subElements.thumbLeft.style.left = `0%`;
+    this.subElements.thumbRight.style.right = `0%`;
+
+    this.subElements.from.innerHTML = this.formatValue(this.min);
+    this.subElements.to.innerHTML = this.formatValue(this.max);
+  }
+
   get left() {
     return Math.floor((this.selected.from - this.min) / this.range * 100);
   }
