@@ -46,12 +46,12 @@ export default class RangePicker {
     }
   }
 
-  onClickLeft = event => {
+  onClickLeft = () => {
     this.dateFrom = new Date(this.dateFrom.getFullYear(), this.dateFrom.getMonth() - 1, 1);
     this.renderCalendar();
   }
 
-  onClickRight = event => {
+  onClickRight = () => {
     this.dateFrom = new Date(this.dateFrom.getFullYear(), this.dateFrom.getMonth() + 1, 1);
     this.renderCalendar();
   }

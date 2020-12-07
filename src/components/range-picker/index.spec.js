@@ -225,7 +225,7 @@ describe("RangePicker", () => {
       // got to the next couple of months
       rightNavigation.dispatchEvent(new MouseEvent("click"));
 
-      const [_, secondCalendar] = selector.querySelectorAll('.rangepicker__calendar');
+      const [, secondCalendar] = selector.querySelectorAll('.rangepicker__calendar');
       const secondDateGrid = secondCalendar.querySelector('.rangepicker__date-grid');
       const lastDate = secondDateGrid.lastElementChild;
 

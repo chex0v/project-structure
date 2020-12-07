@@ -28,7 +28,7 @@ export default class ColumnChart {
     value = 0,
     link = null,
     formatHeading = data => data,
-    formatTooltip = ([key, value]) => {
+    formatTooltip = ([, value]) => {
       const maxValue = Math.max(...Object.values(this.data));
       const percent = ((value / maxValue) * 100).toFixed();
       return `${percent}%`;

@@ -179,6 +179,7 @@ export default class ProductForm {
     if (this.data && this.data.images) {
       return this.data.images.map(image => createElementFromString(this.renderImageLi(image)));
     }
+    return [];
   }
 
   get formData() {
