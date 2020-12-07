@@ -4,6 +4,7 @@ import ColumnChart from '../../components/column-chart/index.js';
 import header from './bestsellers-header.js';
 
 import fetchJson from '../../utils/fetch-json.js';
+import BasePage from '../base';
 
 const BACKEND_URL = process.env.BACKEND_URL;
 
@@ -13,7 +14,7 @@ function createElementFromString(string) {
   return div.firstElementChild;
 }
 
-export default class Page {
+export default class Page extends BasePage {
   /** @type HTMLElement */
   element;
   subElements = {};
@@ -33,10 +34,9 @@ export default class Page {
     this.updateComponents(from, to);
   }
 
-  onToogleSidebar = () => {
-    document.body.classList.toggle('is-collapsed-sidebar');
+  constructor() {
+    super();
   }
-
 
   async render() {
     this.element = createElementFromString(this.template);
@@ -142,10 +142,6 @@ export default class Page {
 
   initEventListeners() {
     this.components.rangePicker.element.addEventListener('date-select', this.onUpdateComponents);
-    this.toogler = document.querySelector('.sidebar__toggler')
-    if (this.toogler) {
-      this.toogler.addEventListener('click', this.onToogleSidebar);
-    }
   }
 
 
@@ -181,12 +177,9 @@ export default class Page {
   }
 
   removeEventListener() {
+    super.destroy();
     if (this.components.rangePicker && this.components.rangePicker.element) {
       this.components.rangePicker.element.removeEventListener('date-select', this.onUpdateComponents);
-    }
-
-    if(this.toogler) {
-      this.toogler.removeEventListener('click', this.onToogleSidebar);
     }
   }
 }

@@ -2,6 +2,7 @@ import SortableTable from '../../../components/sortable-table/index.js';
 import DoubleSlider from '../../../components/double-slider';
 
 import header from './header.js';
+import BasePage from '../../base';
 
 function createElementFromString(string) {
   const div = document.createElement('div');
@@ -9,7 +10,7 @@ function createElementFromString(string) {
   return div.firstElementChild;
 }
 
-export default class Page {
+export default class Page extends BasePage {
   /** @type HTMLElement */
   element;
   subElements = {};
@@ -41,6 +42,10 @@ export default class Page {
     const value = event.target.value;
     this.filters.status = value;
     await this.updateTableComponent();
+  }
+
+  constructor() {
+    super();
   }
 
   get filterUrl() {
@@ -159,6 +164,7 @@ export default class Page {
   }
 
   destroy() {
+    super.destroy();
     this.removeEventListeners();
     for (const component of Object.values(this.components)) {
       component.destroy();

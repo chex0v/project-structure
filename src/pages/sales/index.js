@@ -1,6 +1,7 @@
 import RangePicker from '../../components/range-picker';
 import SortableTable from '../../components/sortable-table';
 import header from './header.js';
+import BasePage from '../base';
 
 function createElementFromString(string) {
   const div = document.createElement("div");
@@ -8,7 +9,7 @@ function createElementFromString(string) {
   return div.firstElementChild;
 }
 
-export default class SalesPage {
+export default class SalesPage extends BasePage {
   element;
   subElements = {};
   components = {};
@@ -16,6 +17,10 @@ export default class SalesPage {
   onDateSelect = async event => {
     const { from, to } = event.detail;
     await this.updateTableComponent(from, to);
+  }
+
+  constructor() {
+    super();
   }
 
   get template() {
@@ -93,6 +98,7 @@ export default class SalesPage {
   }
 
   destroy() {
+    super.destroy();
     this.removeEventListeners();
     for (const component of Object.values(this.components)) {
       component.destroy();

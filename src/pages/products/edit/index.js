@@ -1,6 +1,7 @@
 import ProductForm from '../../../components/product-form/index.js'
 import NotificationMessage from '../../../components/notification';
 import Router from '../../../router';
+import BasePage from '../../base';
 
 function createElementFromString(string) {
   const div = document.createElement("div");
@@ -8,7 +9,7 @@ function createElementFromString(string) {
   return div.firstElementChild;
 }
 
-export default class Page {
+export default class Page extends BasePage {
   element;
   subElements = {};
   components = {
@@ -26,6 +27,7 @@ export default class Page {
   }
 
   constructor(productId = null) {
+    super();
     this.productId = productId;
   }
 
@@ -88,6 +90,7 @@ export default class Page {
   }
 
   destroy() {
+    super.destroy();
     for (const component of Object.values(this.components)) {
       component.destroy();
     }

@@ -1,5 +1,6 @@
 import Categories from '../../components/categories/index.js';
 import fetchJson from '../../utils/fetch-json.js';
+import BasePage from '../base';
 
 const BACKEND_URL = process.env.BACKEND_URL;
 
@@ -8,11 +9,15 @@ function createElementFromString(string) {
   div.innerHTML = string.trim();
   return div.firstElementChild;
 }
-export default class Page {
+export default class Page extends BasePage {
   element;
   subElements = {};
   components = {};
   data = {};
+
+  constructor() {
+    super();
+  }
 
   async getData () {
     const fetchUrl = new URL("api/rest/categories", BACKEND_URL);
@@ -68,6 +73,7 @@ export default class Page {
   }
 
   destroy () {
+    super.destroy();
     for (const component of Object.values(this.components)) {
       component.destroy();
     }
