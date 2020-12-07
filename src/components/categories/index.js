@@ -119,15 +119,11 @@ export default class Categories {
   }
 
   getSortableListItemTemplate(id, title, count) {
-    const wrapper = document.createElement('div');
-
-    wrapper.innerHTML = `
+    return createElementFromString(`
       <li class="categories__sortable-list-item sortable-list__item" data-grab-handle="" data-id="${id}">
         <strong>${escapeHtml(title)}</strong>
         <span><b>${count}</b> products</span>
-      </li>`;
-
-    return wrapper.firstElementChild;
+      </li>`);
   }
 
   appendSubcategoryDraggableList() {
